@@ -1,8 +1,8 @@
 ####################################
 # 创建者：义川先森
 # 客户端：Clash
-# 创建时间：2024-05-25 12:49:10
-# 节点数量：40
+# 创建时间：2024-0-3 20:24:10
+# 节点数量：9
 # 节点类型：vmess, ss, trojan, http
 ####################################
 # 设置混合端口号为7890，意味着这个端口将同时处理TCP和UDP流量
@@ -263,4 +263,26 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-  
+      - "义川工作室"
+      - "YCGZS-1"
+      - "YCGZS-2"
+      - "🇺🇸1"
+      - "🇺🇸2"
+      - "🇨🇦"
+      - "🇨🇳->🇺🇸"
+      - "🇺🇸->🇮🇳"
+      
+      
+  - name: "内网节点"
+    type: "select"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "义川工作室-内网"
+      - "YCGZS-内网"
+
+# 路由规则配置
+rules:
+  - GEOIP,CN,DIRECT
+  - MATCH,♻️ 自动选择
