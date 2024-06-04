@@ -2,7 +2,7 @@
 # 创建者：义川先森
 # 客户端：Clash
 # 创建时间：2024-0-3 20:24:10
-# 节点数量：34
+# 节点数量：40
 # 节点类型：vmess, ss, trojan, http
 ####################################
 # 设置混合端口号为7890，意味着这个端口将同时处理TCP和UDP流量
@@ -37,7 +37,7 @@ dns:
     - '223.5.5.5'
     
     # 这也是一个IPv4的DNS服务器地址
-    - '119.29.29.29'
+    - '8.8.8.8'
     
     # 这是一个支持DNS over HTTPS (DOH)的DNS服务器地址
     - 'https://doh.pub/dns-query'
@@ -140,9 +140,8 @@ routing-rules:
   - condition:
     action:
       proxy:
-        name: "🇺🇸2"
+        name: "🇨🇳->🇺🇸1"
         type: trojan # 如果代理类型不是http，请相应地更改
-
 
 # 代理服务器配置
 proxies:
@@ -166,6 +165,33 @@ proxies:
     port: 7898
     password: "123456"
     cipher: "aes-128-gcm"
+    
+  - name: "🇨🇳->🇺🇸1"
+    type: "trojan"
+    server: "36.151.195.48"
+    port: 20344
+    udp: true
+    password: "TNDSJfNv"
+    skip-cert-verify: true
+    network: "tcp"
+
+  - name: "🇨🇳->🇺🇸2"
+    type: "trojan"
+    server: "36.151.195.48"
+    port: 4603
+    udp: true
+    password: "TNDSJfNv"
+    skip-cert-verify: true
+    network: "tcp"
+
+  - name: "🇨🇳->🇺🇸3"
+    type: "trojan"
+    server: "36.151.195.48"
+    port: 4787
+    udp: true
+    password: "TNDSJfNv"
+    skip-cert-verify: true
+    network: "tcp"
   
   - name: "🇺🇸1"
     type: "vmess"
@@ -192,7 +218,28 @@ proxies:
     ws-opts:
       path: "/linkvws"
       
-  - name: "🇨🇦"
+  - name: "🇺🇸3"
+    type: "ss"
+    server: "205.134.180.139"
+    port: 443
+    password: "lWaGPVFjmnag"
+    cipher: "chacha20-ietf-poly1305"
+    
+  - name: "🇺🇸4"
+    type: "ss"
+    server: "184.170.241.194"
+    port: 443
+    password: "shadowsocks"
+    cipher: "aes-128-cfb"
+
+  - name: "🇺🇸5"
+    type: "ss"
+    server: "38.107.226.146"
+    port: 1230
+    password: "H5S0hvcxRi#YLmgU"
+    cipher: "chacha20-ietf-poly1305"
+    
+  - name: "🇨🇦1"
     type: "vmess"
     server: "158.51.121.36"
     port: 443
@@ -372,17 +419,8 @@ proxies:
     port: 8888
     password: "Y6R9pAtvxxzmGC"
     cipher: "aes-256-gcm"
-
-  - name: "🇨🇳->🇺🇸"
-    type: "trojan"
-    server: "36.151.195.48"
-    port: 20344
-    udp: true
-    password: "TNDSJfNv"
-    skip-cert-verify: true
-    network: "tcp"
     
-  - name: "🇺🇸->🇮🇳"
+  - name: "🇺🇸->🇮🇳1"
     type: "vmess"
     server: "hk.wish.ml"
     port: 2052
@@ -397,30 +435,29 @@ proxies:
       headers:
         host: "in4.wish.ml"
 
-  - name: "义川工作室-内网"
-    type: "http"
-    server: "10.0.1.0"
-    port: 7893
-    username: "yichuan"
-    password: "123456"
-  
-  - name: "YCGZS-内网"
-    type: "ss"
-    server: "10.0.1.0"
-    port: 7897
-    password: "yichuan"
-    cipher: "aes-128-gcm"
     
 # 代理组配置
 proxy-groups:
+  - name: "🚀 节点选择"
+    type: "select"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 100
+    proxies:
+      - "♻️ 自动选择"
+      - "工作室节点"
+      - "🇺🇸美国节点"
+      - "🇨🇦加拿大节点"
+      - "🇮🇳印度节点"
+      - "🇵🇱波兰节点"
+      
   - name: "♻️ 自动选择"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
       - "工作室节点"
-      - "内网节点"
       - "🇺🇸美国节点"
       - "🇨🇦加拿大节点"
       - "🇮🇳印度节点"
@@ -429,8 +466,8 @@ proxy-groups:
   - name: "工作室节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
       - "义川工作室"
       - "YCGZS-1"
@@ -439,34 +476,39 @@ proxy-groups:
   - name: "🇺🇸美国节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
       - "🇺🇸1"
       - "🇺🇸2"
-      - "🇨🇳->🇺🇸"
+      - "🇺🇸3"
+      - "🇺🇸4"
+      - "🇺🇸5"
+      - "🇨🇳->🇺🇸1"
+      - "🇨🇳->🇺🇸2"
+      - "🇨🇳->🇺🇸3"
   
   - name: "🇮🇳印度节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
-      - "🇺🇸->🇮🇳"
+      - "🇺🇸->🇮🇳1"
   
   - name: "🇨🇦加拿大节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
-      - "🇨🇦"
+      - "🇨🇦1"
   
   - name: "🇵🇱波兰节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
+    interval: 500
+    tolerance: 100
     proxies:
       - "🇵🇱1"
       - "🇵🇱2"
@@ -493,14 +535,6 @@ proxy-groups:
       - "🇵🇱23"
       - "🇵🇱24"
       
-  - name: "内网节点"
-    type: "select"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    proxies:
-      - "义川工作室-内网"
-      - "YCGZS-内网"
 
 # 路由规则配置
 rules:
