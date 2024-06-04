@@ -2,7 +2,7 @@
 # 创建者：义川先森
 # 客户端：Clash
 # 创建时间：2024-0-3 20:24:10
-# 节点数量：9
+# 节点数量：34
 # 节点类型：vmess, ss, trojan, http
 ####################################
 # 设置混合端口号为7890，意味着这个端口将同时处理TCP和UDP流量
@@ -204,6 +204,174 @@ proxies:
     network: "ws"
     ws-opts:
       path: "/linkvws"
+      
+  - name: "🇵🇱1"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 6379
+    password: "zDNVedRFPQexG9v"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱2"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 5004
+    password: "g5MeD6Ft3CWlJId"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱3"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8091
+    password: "PCnnH6SQSnfoS27"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱4"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 4444
+    password: "pKEW8JPByTVTLtM"
+    cipher: "aes-256-gcm"
+    
+  - name: "🇵🇱5"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8118
+    password: "cdBIDV42DCwnfIN"
+    cipher: "aes-256-gcm"
+ 
+  - name: "🇵🇱6"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8119
+    password: "cdBIDV42DCwnfIN"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱7"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 2375
+    password: "faBAoD54k87UJG7"
+    cipher: "aes-256-gcm"
+  
+  - name: "🇵🇱8"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 7306
+    password: "FoOiGlkAA9yPEGP"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱9"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8881
+    password: "kDWvXYZoTBcGkC4"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱10"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 6697
+    password: "TEzjfAYq2IjtuoS"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱11"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 6679
+    password: "TEzjfAYq2IjtuoS"
+    cipher: "aes-256-gcm"
+ 
+  - name: "🇵🇱12"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8882
+    password: "kDWvXYZoTBcGkC4"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱13"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 5000
+    password: "Y6R9pAtvxxzmGC"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱14"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 5001
+    password: "Y6R9pAtvxxzmGC"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱15"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 9102
+    password: "e4FCWrgpkji3QY"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱16"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 3389
+    password: "Y6R9pAtvxxzmGC"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱17"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 5003
+    password: "g5MeD6Ft3CWlJId"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱18"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 7307
+    password: "FoOiGlkAA9yPEGP"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱19"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8008
+    password: "XKFKl2rULjIp74"
+    cipher: "aes-256-gcm"
+ 
+  - name: "🇵🇱20"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8009
+    password: "XKFKl2rULjIp74"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱21"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8000
+    password: "KixLvKzwjekG00rm"
+    cipher: "aes-256-gcm"
+ 
+  - name: "🇵🇱22"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 7001
+    password: "RexnBgU7EV5ADxG"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱23"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 9101
+    password: "e4FCWrgpkji3QY"
+    cipher: "aes-256-gcm"
+
+  - name: "🇵🇱24"
+    type: "ss"
+    server: "51.77.53.200"
+    port: 8888
+    password: "Y6R9pAtvxxzmGC"
+    cipher: "aes-256-gcm"
 
   - name: "🇨🇳->🇺🇸"
     type: "trojan"
@@ -242,9 +410,6 @@ proxies:
     port: 7897
     password: "yichuan"
     cipher: "aes-128-gcm"
-
-    
-
     
 # 代理组配置
 proxy-groups:
@@ -254,10 +419,14 @@ proxy-groups:
     interval: 300
     tolerance: 50
     proxies:
-      - "公网节点"
+      - "工作室节点"
       - "内网节点"
+      - "🇺🇸美国节点"
+      - "🇨🇦加拿大节点"
+      - "🇮🇳印度节点"
+      - "🇵🇱波兰节点"
       
-  - name: "公网节点"
+  - name: "工作室节点"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
     interval: 300
@@ -266,12 +435,63 @@ proxy-groups:
       - "义川工作室"
       - "YCGZS-1"
       - "YCGZS-2"
+  
+  - name: "🇺🇸美国节点"
+    type: "url-test"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
       - "🇺🇸1"
       - "🇺🇸2"
-      - "🇨🇦"
       - "🇨🇳->🇺🇸"
+  
+  - name: "🇮🇳印度节点"
+    type: "url-test"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
       - "🇺🇸->🇮🇳"
-      
+  
+  - name: "🇨🇦加拿大节点"
+    type: "url-test"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "🇨🇦"
+  
+  - name: "🇵🇱波兰节点"
+    type: "url-test"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "🇵🇱1"
+      - "🇵🇱2"
+      - "🇵🇱3"
+      - "🇵🇱4"
+      - "🇵🇱5"
+      - "🇵🇱6"
+      - "🇵🇱7"
+      - "🇵🇱8"
+      - "🇵🇱9"
+      - "🇵🇱10"
+      - "🇵🇱11"
+      - "🇵🇱12"
+      - "🇵🇱13"
+      - "🇵🇱14"
+      - "🇵🇱15"
+      - "🇵🇱16"
+      - "🇵🇱17"
+      - "🇵🇱18"
+      - "🇵🇱19"
+      - "🇵🇱20"
+      - "🇵🇱21"
+      - "🇵🇱22"
+      - "🇵🇱23"
+      - "🇵🇱24"
       
   - name: "内网节点"
     type: "select"
