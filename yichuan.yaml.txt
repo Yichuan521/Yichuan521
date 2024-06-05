@@ -1,7 +1,7 @@
 ####################################
 # 创建者：义川先森
 # 客户端：Clash
-# 创建时间：2024-6-5 20:24:10
+# 创建时间：2024-6-5 12:43:17
 # 节点数量：40
 # 节点类型：vmess, ss, trojan, http
 ####################################
@@ -137,11 +137,11 @@ routing-rules:
       direct: true # 直接连接，不使用代理
   
   # 其他所有IP通过代理连接
-  - condition:
-    action:
-      proxy:
-        name: "🇺🇸4"
-        type: "ss" # 如果代理类型不是http，请相应地更改
+  #- condition:
+  #  action:
+  #    proxy:
+  #      name: "🇺🇸4"
+  #      type: "ss" # 如果代理类型不是http，请相应地更改
 
 # 代理服务器配置
 proxies:
@@ -444,27 +444,21 @@ proxy-groups:
       - "♻️ 自动选择"
       - "DIRECT"
       - "工作室节点"
-
+      - "🇺🇸 美国节点"
+      - "🇨🇦 加拿大节点"
+      - "🇮🇳 印度节点"
+      - "🇵🇱 波兰节点"
 
   - name: "♻️ 自动选择"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 50
-    proxies:
+    proxies:   
       - "🇺🇸 美国节点"
       - "🇨🇦 加拿大节点"
       - "🇮🇳 印度节点"
       - "🇵🇱 波兰节点"
-      
-  - name: "🎯 全球直连"
-    type: "select"
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-    proxies:
-      - "DIRECT"
-      - "🚀 节点选择"
       
   - name: "🛑 全球拦截"
     type: "select"
@@ -477,7 +471,17 @@ proxy-groups:
     proxies:
       - "REJECT"
       - "DIRECT"
-  
+      
+  - name: "🎯 全球直连"
+    type: "select"
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "DIRECT"
+      - "♻️ 自动选择"
+      - "🚀 节点选择"
+      
   - name: "🌍 国外媒体"
     type: "url-test"
     url: "http://www.gstatic.com/generate_204"
