@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- 复制文本专用库 -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -108,36 +110,38 @@
           <i class="fa fa-tags text-pink-400 text-xl w-6 text-center"></i>
           <span>HTML / CSS / JS / 毛玻璃UI / 动态粒子特效</span>
         </div>
-        <!-- 访客IP识别玻璃模块 -->
+        <!-- 真实访客IP识别模块 -->
         <div class="glass rounded-xl p-3 mt-2">
           <h3 class="text-green-400 font-semibold mb-2 flex items-center gap-2">
             <i class="fa fa-desktop"></i> 访客访问信息
           </h3>
           <p class="pl-6 text-sm">
-            公网IP：<span id="visitorIp" class="text-white">正在识别...</span>
+            公网IP：<span id="visitorIp" class="text-white">正在联网识别...</span>
             <br>
-            访问属地：<span id="visitorArea" class="text-white">等待获取地址</span>
+            访问属地：<span id="visitorArea" class="text-white">等待获取地理位置</span>
           </p>
         </div>
       </div>
 
       <div class="flex justify-center gap-4 flex-wrap">
-        <!-- QQ一键添加好友 -->
-        <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3459994583" target="_blank"
+        <!-- QQ：客户端协议 + 网页在线会话兜底，兼容所有设备 -->
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=3459994583&site=qq&menu=yes" 
+           onclick="window.open('tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3459994583');return true;"
+           target="_blank"
            class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-qq"></i>
         </a>
-        <!-- GitHub链接 -->
+        <!-- GitHub -->
         <a href="https://github.com/Yichuan521" target="_blank"
            class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-github"></i>
         </a>
-        <!-- 微信加友链接 -->
-        <a href="https://u.wechat.com/MAOaF6r-RAUMmkPR4MRE7eA?s=3" target="_blank"
-           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+        <!-- 微信按钮：复制微信号+唤起微信 -->
+        <button class="weixin-copy-btn glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white"
+                data-clipboard-text="MAOaF6r-RAUMmkPR4MRE7eA">
           <i class="fa fa-wechat"></i>
-        </a>
-        <!-- 邮箱链接 -->
+        </button>
+        <!-- Foxmail邮箱 -->
         <a href="mailto:yichuan-521@foxmail.com" target="_blank"
            class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-envelope"></i>
@@ -151,6 +155,7 @@
   </main>
 
   <script>
+    // 粒子背景
     particlesJS("particles-js", {
       particles: {
         number: { value: 60, density: { enable: true, value_area: 800 } },
@@ -173,7 +178,7 @@
       retina_detect: true
     });
 
-    // 自动跟随系统深浅色，实时监听切换
+    // 自动跟随系统深浅色
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     function setTheme(e) {
       if (e.matches) document.body.classList.add('dark');
@@ -210,26 +215,58 @@
     }
     typeWrite();
 
-    // 头像加载失败兜底
+    // 头像加载兜底
     const avatarImg = document.getElementById('qqAvatar');
     avatarImg.onerror = () => {
       avatarImg.src = "https://picsum.photos/id/1005/640/640";
     }
 
-    // 优化IP识别逻辑，分离IP与属地，双层容错
+    // ========== 微信复制+唤起逻辑 ==========
+    new ClipboardJS('.weixin-copy-btn');
+    document.querySelector('.weixin-copy-btn').addEventListener('click', function(){
+      alert('微信号已复制！打开微信 → 右上角添加朋友，粘贴搜索即可');
+      // 尝试唤起微信APP
+      if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+        window.location.href = 'weixin://';
+      }
+    })
+
+    // ========== 真实公网IP+地理位置识别核心代码 ==========
     const ipDom = document.getElementById('visitorIp');
     const areaDom = document.getElementById('visitorArea');
-    window.returnCitySN = function (res) {
-      ipDom.innerText = res.ip;
-      areaDom.innerText = res.province + res.city;
+
+    async function getPublicIP() {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+      } catch (err) {
+        return null;
+      }
     }
-    const ipScript = document.createElement('script');
-    ipScript.src = "https://pv.sohu.com/cityjson?ie=utf-8";
-    ipScript.onerror = () => {
-      ipDom.innerText = "获取失败";
-      areaDom.innerText = "无法识别访问地址";
+
+    async function getIpLocation(ip) {
+      if (!ip) throw new Error('IP获取失败');
+      try {
+        const res = await fetch(`https://geo.iproyal.com/api/${ip}`);
+        const loc = await res.json();
+        return `${loc.country || ''} ${loc.region || ''} ${loc.city || ''}`;
+      } catch (err) {
+        return '地理位置接口请求失败';
+      }
     }
-    document.body.appendChild(ipScript);
+
+    (async function runIpDetect() {
+      const ip = await getPublicIP();
+      if (!ip) {
+        ipDom.innerText = 'IP识别失败';
+        areaDom.innerText = '网络环境无法获取公网地址';
+        return;
+      }
+      ipDom.innerText = ip;
+      const locationText = await getIpLocation(ip);
+      areaDom.innerText = locationText;
+    })();
   </script>
 </body>
 </html>
