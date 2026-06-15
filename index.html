@@ -1,237 +1,235 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Anime Blog // 义川先森的日记</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light dark">
+  <title>个人主页 | My Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: "Microsoft YaHei", sans-serif;
-}
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            primary: '#6366f1',
+            secondary: '#a855f7',
+            darkbg: '#0f172a',
+            lightbg: '#f8fafc'
+          },
+          animation: {
+            'float': 'float 4s ease-in-out infinite',
+            'typing': 'typing 2s steps(30) forwards, blink .6s infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            typing: { from: { width: 0 } },
+            blink: { '50%': { borderColor: 'transparent' } }
+          }
+        }
+      }
+    }
+  </script>
 
-body{
-  background: radial-gradient(circle at top, #1a1033, #05040a);
-  color:#fff;
-  overflow-x:hidden;
-}
-
-/* 背景粒子 */
-canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:-1;
-}
-
-/* 整体布局 */
-.container{
-  display:flex;
-  min-height:100vh;
-}
-
-/* 左侧栏 */
-.sidebar{
-  width:260px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  padding:20px;
-  border-right:1px solid rgba(255,255,255,0.1);
-}
-
-.avatar{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  margin:10px auto;
-  background: linear-gradient(45deg,#ff6bd6,#6bd6ff);
-  box-shadow:0 0 20px #ff6bd6;
-}
-
-.name{
-  text-align:center;
-  margin-top:10px;
-  font-size:18px;
-}
-
-.desc{
-  text-align:center;
-  font-size:12px;
-  color:#aaa;
-  margin-top:5px;
-}
-
-.menu{
-  margin-top:30px;
-}
-
-.menu div{
-  padding:10px;
-  margin:8px 0;
-  background: rgba(255,255,255,0.05);
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3;
-}
-
-.menu div:hover{
-  background: rgba(255,105,180,0.3);
-  transform: translateX(5px);
-}
-
-/* 主内容 */
-.main{
-  flex:1;
-  padding:30px;
-}
-
-.header{
-  font-size:28px;
-  margin-bottom:20px;
-  background: linear-gradient(90deg,#ff6bd6,#6bd6ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* 博客卡片 */
-.post{
-  background: rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:15px;
-  padding:20px;
-  margin-bottom:20px;
-  transition:0.3;
-}
-
-.post:hover{
-  transform: translateY(-5px);
-  box-shadow:0 10px 30px rgba(255,105,180,0.2);
-}
-
-.post h2{
-  color:#ffb3e6;
-  margin-bottom:10px;
-}
-
-.post p{
-  color:#ccc;
-  font-size:14px;
-  line-height:1.6;
-}
-
-.tag{
-  display:inline-block;
-  margin-top:10px;
-  padding:3px 8px;
-  font-size:12px;
-  border-radius:8px;
-  background: rgba(255,105,180,0.2);
-  color:#ffb3e6;
-}
-
-/* 响应式 */
-@media(max-width:768px){
-  .container{flex-direction:column;}
-  .sidebar{width:100%;}
-}
-</style>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .glass {
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.18);
+      }
+      .dark-glass {
+        background: rgba(15,23,42,0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      }
+      .shadow-glow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.35); }
+      .avatar-ring {
+        background: linear-gradient(135deg,#6366f1,#a855f7,#ec4899);
+        padding: 4px;
+        border-radius: 9999px;
+      }
+    }
+    * { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top:0; left:0; }
+  </style>
 </head>
 
-<body>
+<body class="bg-darkbg dark:text-white text-gray-900 min-h-screen transition-colors duration-500">
+  <div id="particles-js"></div>
 
-<canvas id="bg"></canvas>
+  <main class="min-h-screen flex flex-col items-center justify-center px-4 py-16">
+    <div class="dark-glass rounded-3xl p-8 md:p-12 w-full max-w-xl shadow-glow animate-float">
+      <div class="flex justify-center mb-6">
+        <div class="avatar-ring">
+          <img 
+            id="qqAvatar"
+            src="https://q1.qlogo.cn/g?b=qq&nk=3459994583&s=640" 
+            class="w-36 h-36 md:w-40 md:h-40 rounded-full object-cover"
+          >
+        </div>
+      </div>
 
-<div class="container">
+      <h1 class="text-[clamp(2rem,5vw,2.8rem)] font-bold text-gradient text-center mb-3">
+        我的个人主页
+      </h1>
 
-  <!-- 左侧 -->
-  <div class="sidebar">
-    <div class="avatar"></div>
-    <div class="name">义川 / NeoBlog</div>
-    <div class="desc">“在数据宇宙里写日记”</div>
+      <div class="text-center text-lg md:text-xl mb-8 text-gray-300 h-7 overflow-hidden">
+        <span id="typeText" class="whitespace-nowrap border-r-2 border-primary pr-1 animate-typing"></span>
+      </div>
 
-    <div class="menu">
-      <div>🏠 首页</div>
-      <div>📚 博客</div>
-      <div>🎨 作品</div>
-      <div>🌌 关于我</div>
+      <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent mb-8"></div>
+
+      <div class="space-y-4 mb-10 text-gray-200">
+        <div class="flex items-center gap-3">
+          <i class="fa fa-code text-secondary text-xl w-6 text-center"></i>
+          <span>前端 / 静态站爱好者</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fa fa-tags text-pink-400 text-xl w-6 text-center"></i>
+          <span>HTML / CSS / JS / 毛玻璃UI / 动态粒子特效</span>
+        </div>
+        <!-- 访客IP识别玻璃模块 -->
+        <div class="glass rounded-xl p-3 mt-2">
+          <h3 class="text-green-400 font-semibold mb-2 flex items-center gap-2">
+            <i class="fa fa-desktop"></i> 访客访问信息
+          </h3>
+          <p class="pl-6 text-sm">
+            公网IP：<span id="visitorIp" class="text-white">正在识别...</span>
+            <br>
+            访问属地：<span id="visitorArea" class="text-white">等待获取地址</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-4 flex-wrap">
+        <!-- QQ一键添加好友 -->
+        <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3459994583" target="_blank"
+           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+          <i class="fa fa-qq"></i>
+        </a>
+        <!-- GitHub链接 -->
+        <a href="https://github.com/Yichuan521" target="_blank"
+           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+          <i class="fa fa-github"></i>
+        </a>
+        <!-- 微信加友链接 -->
+        <a href="https://u.wechat.com/MAOaF6r-RAUMmkPR4MRE7eA?s=3" target="_blank"
+           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+          <i class="fa fa-wechat"></i>
+        </a>
+        <!-- 邮箱链接 -->
+        <a href="mailto:yichuan-521@foxmail.com" target="_blank"
+           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+          <i class="fa fa-envelope"></i>
+        </a>
+      </div>
     </div>
-  </div>
 
-  <!-- 主内容 -->
-  <div class="main">
-    <div class="header">✨ 义川先森的日记 / BLOG</div>
+    <footer class="mt-12 text-gray-400 text-sm text-center">
+      <p>© 2026 Personal Static Site | Powered by Pure HTML CSS JS</p>
+    </footer>
+  </main>
 
-    <div class="post">
-      <h2>今天的代码像星空一样闪烁</h2>
-      <p>我在写一个二次元博客网站，背景是紫色的宇宙，像是进入了一个平行世界。</p>
-      <span class="tag">#日常</span>
-    </div>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: "#6366f1" },
+        shape: { type: "circle" },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 140, color: "#a855f7", opacity: 0.2, width: 1 },
+        move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: { grab: { distance: 180, line_linked: { opacity: 0.6 } }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
 
-    <div class="post">
-      <h2>AI与人类的边界</h2>
-      <p>如果AI可以写诗、画画、做设计，那“创作”的定义是否正在被重新书写？</p>
-      <span class="tag">#思考</span>
-    </div>
+    // 自动跟随系统深浅色，实时监听切换
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    function setTheme(e) {
+      if (e.matches) document.body.classList.add('dark');
+      else document.body.classList.remove('dark');
+    }
+    setTheme(mediaQuery);
+    mediaQuery.addEventListener('change', setTheme);
 
-    <div class="post">
-      <h2>科幻UI设计练习</h2>
-      <p>尝试做了一套霓虹风格UI，感觉像在操作未来的操作系统。</p>
-      <span class="tag">#设计</span>
-    </div>
+    // 打字机文字
+    const textArr = [
+      "热爱前端 · 极简美学 · 静态站点",
+      "专注精致UI与流畅交互动效",
+      "欢迎通过下方联系方式与我交流"
+    ];
+    let textIndex = 0, charIndex = 0, isDelete = false;
+    const typeDom = document.getElementById('typeText');
+    function typeWrite() {
+      const curText = textArr[textIndex];
+      if(!isDelete) {
+        typeDom.innerText = curText.substring(0, charIndex++);
+        if(charIndex > curText.length) {
+          isDelete = true;
+          setTimeout(typeWrite, 2000);
+          return;
+        }
+      } else {
+        typeDom.innerText = curText.substring(0, charIndex--);
+        if(charIndex < 0) {
+          isDelete = false;
+          textIndex = (textIndex + 1) % textArr.length;
+        }
+      }
+      setTimeout(typeWrite, isDelete ? 60 : 100);
+    }
+    typeWrite();
 
-  </div>
+    // 头像加载失败兜底
+    const avatarImg = document.getElementById('qqAvatar');
+    avatarImg.onerror = () => {
+      avatarImg.src = "https://picsum.photos/id/1005/640/640";
+    }
 
-</div>
-
-<script>
-// 粒子背景
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for(let i=0;i<120;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2,
-    dx:(Math.random()-0.5),
-    dy:(Math.random()-0.5)
-  });
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  ctx.fillStyle="rgba(255,105,180,0.7)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-
-    p.x += p.dx;
-    p.y += p.dy;
-
-    if(p.x<0||p.x>canvas.width)p.dx*=-1;
-    if(p.y<0||p.y>canvas.height)p.dy*=-1;
-  });
-
-  requestAnimationFrame(draw);
-}
-
-draw();
-
-window.addEventListener("resize",()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-</script>
-
+    // 优化IP识别逻辑，分离IP与属地，双层容错
+    const ipDom = document.getElementById('visitorIp');
+    const areaDom = document.getElementById('visitorArea');
+    window.returnCitySN = function (res) {
+      ipDom.innerText = res.ip;
+      areaDom.innerText = res.province + res.city;
+    }
+    const ipScript = document.createElement('script');
+    ipScript.src = "https://pv.sohu.com/cityjson?ie=utf-8";
+    ipScript.onerror = () => {
+      ipDom.innerText = "获取失败";
+      areaDom.innerText = "无法识别访问地址";
+    }
+    document.body.appendChild(ipScript);
+  </script>
 </body>
 </html>
