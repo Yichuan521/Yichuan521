@@ -4,31 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="color-scheme" content="light dark">
-  <title>个人主页 | My Profile</title>
+  <!-- SEO 优化 -->
+  <meta name="description" content="前端开发者个人主页，展示技能与联系方式">
+  <meta name="keywords" content="前端,HTML,CSS,JavaScript,个人主页">
+  <title>个人主页 | 义川先森</title>
+  <!-- 外部资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <!-- 复制文本专用库 -->
   <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Tailwind 配置 -->
   <script>
     tailwind.config = {
-      darkMode: 'media',
+      darkMode: 'class', // 改为class模式，支持手动切换主题
       theme: {
         extend: {
           fontFamily: { inter: ['Inter', 'sans-serif'] },
           colors: {
             primary: '#6366f1',
             secondary: '#a855f7',
+            pinkCustom: '#ec4899',
             darkbg: '#0f172a',
             lightbg: '#f8fafc'
           },
           animation: {
             'float': 'float 4s ease-in-out infinite',
             'typing': 'typing 2s steps(30) forwards, blink .6s infinite',
+            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'scale-in': 'scaleIn 0.5s ease-out forwards'
           },
           keyframes: {
             float: {
@@ -36,7 +43,15 @@
               '50%': { transform: 'translateY(-12px)' },
             },
             typing: { from: { width: 0 } },
-            blink: { '50%': { borderColor: 'transparent' } }
+            blink: { '50%': { borderColor: 'transparent' } },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' }
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.9)' },
+              '100%': { opacity: '1', transform: 'scale(1)' }
+            }
           }
         }
       }
@@ -45,6 +60,7 @@
 
   <style type="text/tailwindcss">
     @layer utilities {
+      /* 玻璃拟态样式 */
       .glass {
         background: rgba(255,255,255,0.12);
         backdrop-filter: blur(16px);
@@ -57,61 +73,174 @@
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid rgba(255,255,255,0.1);
       }
+      .light-glass {
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(0,0,0,0.08);
+      }
+      /* 渐变文字 */
       .text-gradient {
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
         background-image: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
       }
+      /* 发光阴影 */
       .shadow-glow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.35); }
+      /* 头像渐变环 */
       .avatar-ring {
         background: linear-gradient(135deg,#6366f1,#a855f7,#ec4899);
         padding: 4px;
         border-radius: 9999px;
       }
+      /* 涟漪点击效果 */
+      .ripple {
+        position: relative;
+        overflow: hidden;
+      }
+      .ripple::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.4);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.4s ease, height 0.4s ease;
+      }
+      .ripple:active::after {
+        width: 120%;
+        height: 120%;
+      }
+      /* 加载遮罩 */
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        background: #0f172a;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      .loader-hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      /* Toast 提示 */
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        background: rgba(0,0,0,0.75);
+        color: #fff;
+        font-size: 0.875rem;
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 9998;
+      }
+      .toast-show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
     }
-    * { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
-    #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top:0; left:0; }
+
+    * { 
+      scroll-behavior: smooth; 
+      box-sizing: border-box;
+    }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      overflow-x: hidden; 
+      line-height: 1.6;
+    }
+    #particles-js { 
+      position: fixed; 
+      width: 100%; 
+      height: 100%; 
+      z-index: -1; 
+      top:0; 
+      left:0; 
+    }
   </style>
 </head>
+<!-- 初始化深色模式，支持手动切换 -->
+<body class="bg-darkbg dark:text-white text-gray-900 min-h-screen transition-colors duration-500 dark">
+  <!-- 页面加载动画 -->
+  <div class="page-loader" id="pageLoader">
+    <div class="text-gradient text-2xl font-bold animate-pulse">Loading...</div>
+  </div>
 
-<body class="bg-darkbg dark:text-white text-gray-900 min-h-screen transition-colors duration-500">
+  <!-- 粒子背景 -->
   <div id="particles-js"></div>
 
-  <main class="min-h-screen flex flex-col items-center justify-center px-4 py-16">
-    <div class="dark-glass rounded-3xl p-8 md:p-12 w-full max-w-xl shadow-glow animate-float">
+  <!-- 顶部导航栏 -->
+  <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="navbar">
+    <div class="dark-glass light:light-glass py-3 px-4 md:px-8 flex justify-between items-center max-w-7xl mx-auto">
+      <div class="font-semibold text-gradient text-lg">义川先森</div>
+      <!-- 主题切换按钮 -->
+      <button id="themeToggle" class="ripple glass w-10 h-10 rounded-full flex items-center justify-center text-white dark:text-white hover:scale-110 transition-transform">
+        <i class="fa fa-moon-o dark:hidden"></i>
+        <i class="fa fa-sun-o hidden dark:inline-block"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="min-h-screen flex flex-col items-center justify-center px-4 py-24 md:py-20">
+    <div class="dark-glass light:light-glass rounded-3xl p-8 md:p-12 w-full max-w-xl shadow-glow animate-float animate-scale-in">
+      <!-- 头像区域 -->
       <div class="flex justify-center mb-6">
         <div class="avatar-ring">
           <img 
             id="qqAvatar"
             src="https://q1.qlogo.cn/g?b=qq&nk=3459994583&s=640" 
-            class="w-36 h-36 md:w-40 md:h-40 rounded-full object-cover"
+            class="w-36 h-36 md:w-40 md:h-40 rounded-full object-cover transition-all duration-300 hover:scale-105"
+            alt="头像"
           >
         </div>
       </div>
 
+      <!-- 标题 -->
       <h1 class="text-[clamp(2rem,5vw,2.8rem)] font-bold text-gradient text-center mb-3">
         我的个人主页
       </h1>
 
-      <div class="text-center text-lg md:text-xl mb-8 text-gray-300 h-7 overflow-hidden">
+      <!-- 打字机标语 -->
+      <div class="text-center text-lg md:text-xl mb-8 text-gray-300 dark:text-gray-300 light:text-gray-600 h-7 overflow-hidden">
         <span id="typeText" class="whitespace-nowrap border-r-2 border-primary pr-1 animate-typing"></span>
       </div>
 
+      <!-- 分割线 -->
       <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent mb-8"></div>
 
-      <div class="space-y-4 mb-10 text-gray-200">
+      <!-- 个人简介 & 技能标签 -->
+      <div class="space-y-4 mb-8 text-gray-200 dark:text-gray-200 light:text-gray-700">
         <div class="flex items-center gap-3">
           <i class="fa fa-code text-secondary text-xl w-6 text-center"></i>
           <span>前端 / 静态站爱好者</span>
         </div>
         <div class="flex items-center gap-3">
-          <i class="fa fa-tags text-pink-400 text-xl w-6 text-center"></i>
+          <i class="fa fa-tags text-pinkCustom text-xl w-6 text-center"></i>
           <span>HTML / CSS / JS / 毛玻璃UI / 动态粒子特效</span>
         </div>
-        <!-- 真实访客IP识别模块 -->
-        <div class="glass rounded-xl p-3 mt-2">
+        <!-- 技能标签组 -->
+        <div class="flex flex-wrap gap-2 mt-4 pl-9">
+          <span class="px-3 py-1 rounded-full glass text-sm">前端开发</span>
+          <span class="px-3 py-1 rounded-full glass text-sm">UI 设计</span>
+          <span class="px-3 py-1 rounded-full glass text-sm">静态站点</span>
+          <span class="px-3 py-1 rounded-full glass text-sm">交互动效</span>
+        </div>
+
+        <!-- 访客信息模块 -->
+        <div class="glass rounded-xl p-3 mt-4">
           <h3 class="text-green-400 font-semibold mb-2 flex items-center gap-2">
             <i class="fa fa-desktop"></i> 访客访问信息
           </h3>
@@ -123,48 +252,66 @@
         </div>
       </div>
 
+      <!-- 社交联系方式按钮 -->
       <div class="flex justify-center gap-4 flex-wrap">
-        <!-- QQ：客户端协议 + 网页在线会话兜底，兼容所有设备 -->
+        <!-- QQ -->
         <a href="https://wpa.qq.com/msgrd?v=3&uin=3459994583&site=qq&menu=yes" 
            onclick="window.open('tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3459994583');return true;"
            target="_blank"
-           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+           class="ripple glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-qq"></i>
         </a>
         <!-- GitHub -->
         <a href="https://github.com/Yichuan521" target="_blank"
-           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+           class="ripple glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-github"></i>
         </a>
-        <!-- 微信按钮：复制微信号+唤起微信 -->
-        <button class="weixin-copy-btn glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white"
+        <!-- 微信复制按钮 -->
+        <button class="weixin-copy-btn ripple glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white"
                 data-clipboard-text="MAOaF6r-RAUMmkPR4MRE7eA">
           <i class="fa fa-wechat"></i>
         </button>
-        <!-- Foxmail邮箱 -->
+        <!-- 邮箱 -->
         <a href="mailto:yichuan-521@foxmail.com" target="_blank"
-           class="glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
+           class="ripple glass hover:shadow-glow w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all hover:scale-110 text-white">
           <i class="fa fa-envelope"></i>
         </a>
       </div>
     </div>
 
+    <!-- 页脚 -->
     <footer class="mt-12 text-gray-400 text-sm text-center">
       <p>© 2026 Personal Static Site | Powered by Pure HTML CSS JS</p>
     </footer>
   </main>
 
+  <!-- 返回顶部按钮 -->
+  <button id="backTop" class="fixed bottom-6 right-6 glass w-11 h-11 rounded-full flex items-center justify-center text-white shadow-glow opacity-0 invisible transition-all duration-300 hover:scale-110 ripple">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <!-- Toast 提示容器 -->
+  <div class="toast" id="toast"></div>
+
   <script>
-    // 粒子背景
+    // ========== 页面加载动画 ==========
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('pageLoader');
+      setTimeout(() => {
+        loader.classList.add('loader-hidden');
+      }, 600);
+    });
+
+    // ========== 粒子背景配置（参数优化，视觉更柔和） ==========
     particlesJS("particles-js", {
       particles: {
-        number: { value: 60, density: { enable: true, value_area: 800 } },
+        number: { value: 50, density: { enable: true, value_area: 800 } },
         color: { value: "#6366f1" },
         shape: { type: "circle" },
-        opacity: { value: 0.4, random: true },
-        size: { value: 3, random: true },
-        line_linked: { enable: true, distance: 140, color: "#a855f7", opacity: 0.2, width: 1 },
-        move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, out_mode: "out" }
+        opacity: { value: 0.35, random: true },
+        size: { value: 2.5, random: true },
+        line_linked: { enable: true, distance: 150, color: "#a855f7", opacity: 0.18, width: 1 },
+        move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out" }
       },
       interactivity: {
         detect_on: "canvas",
@@ -173,21 +320,44 @@
           onclick: { enable: true, mode: "push" },
           resize: true
         },
-        modes: { grab: { distance: 180, line_linked: { opacity: 0.6 } }, push: { particles_nb: 4 } }
+        modes: { grab: { distance: 180, line_linked: { opacity: 0.5 } }, push: { particles_nb: 3 } }
       },
       retina_detect: true
     });
 
-    // 自动跟随系统深浅色
+    // ========== 深浅色主题切换（手动+系统双重适配） ==========
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlDom = document.documentElement;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    function setTheme(e) {
-      if (e.matches) document.body.classList.add('dark');
-      else document.body.classList.remove('dark');
-    }
-    setTheme(mediaQuery);
-    mediaQuery.addEventListener('change', setTheme);
 
-    // 打字机文字
+    // 读取本地存储主题
+    const localTheme = localStorage.getItem('siteTheme');
+    if(localTheme === 'light') {
+      htmlDom.classList.remove('dark');
+    } else if(localTheme === 'dark') {
+      htmlDom.classList.add('dark');
+    } else {
+      // 无本地配置则跟随系统
+      if(mediaQuery.matches) htmlDom.classList.add('dark');
+      else htmlDom.classList.remove('dark');
+    }
+
+    // 切换事件
+    themeToggle.addEventListener('click', () => {
+      htmlDom.classList.toggle('dark');
+      const isDark = htmlDom.classList.contains('dark');
+      localStorage.setItem('siteTheme', isDark ? 'dark' : 'light');
+    });
+
+    // 监听系统主题变化
+    mediaQuery.addEventListener('change', (e) => {
+      if(!localStorage.getItem('siteTheme')) {
+        if(e.matches) htmlDom.classList.add('dark');
+        else htmlDom.classList.remove('dark');
+      }
+    });
+
+    // ========== 打字机动画（优化节奏） ==========
     const textArr = [
       "热爱前端 · 极简美学 · 静态站点",
       "专注精致UI与流畅交互动效",
@@ -201,7 +371,7 @@
         typeDom.innerText = curText.substring(0, charIndex++);
         if(charIndex > curText.length) {
           isDelete = true;
-          setTimeout(typeWrite, 2000);
+          setTimeout(typeWrite, 2200);
           return;
         }
       } else {
@@ -211,33 +381,65 @@
           textIndex = (textIndex + 1) % textArr.length;
         }
       }
-      setTimeout(typeWrite, isDelete ? 60 : 100);
+      setTimeout(typeWrite, isDelete ? 50 : 90);
     }
     typeWrite();
 
-    // 头像加载兜底
+    // ========== 头像加载兜底增强 ==========
     const avatarImg = document.getElementById('qqAvatar');
     avatarImg.onerror = () => {
       avatarImg.src = "https://picsum.photos/id/1005/640/640";
+    };
+
+    // ========== Toast 轻提示函数 ==========
+    const toast = document.getElementById('toast');
+    function showToast(msg, duration = 2000) {
+      toast.innerText = msg;
+      toast.classList.add('toast-show');
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+      }, duration);
     }
 
-    // ========== 微信复制+唤起逻辑 ==========
+    // ========== 微信复制功能 + 优雅提示 ==========
     new ClipboardJS('.weixin-copy-btn');
     document.querySelector('.weixin-copy-btn').addEventListener('click', function(){
-      alert('微信号已复制！打开微信 → 右上角添加朋友，粘贴搜索即可');
-      // 尝试唤起微信APP
+      showToast('✅ 微信号已复制，快去微信添加好友吧');
+      // 移动端唤起微信
       if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
         window.location.href = 'weixin://';
       }
-    })
+    });
 
-    // ========== 真实公网IP+地理位置识别核心代码 ==========
+    // ========== 返回顶部功能 ==========
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      // 控制返回顶部按钮显隐
+      if(window.scrollY > 300) {
+        backTop.classList.remove('opacity-0', 'invisible');
+      } else {
+        backTop.classList.add('opacity-0', 'invisible');
+      }
+      // 导航栏滚动效果
+      const navbar = document.getElementById('navbar');
+      if(window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('shadow-lg');
+      }
+    });
+    backTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ========== IP + 地理位置识别（增强容错） ==========
     const ipDom = document.getElementById('visitorIp');
     const areaDom = document.getElementById('visitorArea');
 
     async function getPublicIP() {
       try {
-        const res = await fetch('https://api.ipify.org?format=json');
+        const res = await fetch('https://api.ipify.org?format=json', {timeout: 5000});
+        if(!res.ok) throw new Error('请求失败');
         const data = await res.json();
         return data.ip;
       } catch (err) {
@@ -246,21 +448,22 @@
     }
 
     async function getIpLocation(ip) {
-      if (!ip) throw new Error('IP获取失败');
+      if (!ip) return '无法获取地理位置';
       try {
-        const res = await fetch(`https://geo.iproyal.com/api/${ip}`);
+        const res = await fetch(`https://geo.iproyal.com/api/${ip}`, {timeout: 5000});
+        if(!res.ok) throw new Error('接口异常');
         const loc = await res.json();
-        return `${loc.country || ''} ${loc.region || ''} ${loc.city || ''}`;
+        return `${loc.country || ''} ${loc.region || ''} ${loc.city || ''}`.trim() || '未知地区';
       } catch (err) {
-        return '地理位置接口请求失败';
+        return '地理位置接口请求超时';
       }
     }
 
     (async function runIpDetect() {
       const ip = await getPublicIP();
       if (!ip) {
-        ipDom.innerText = 'IP识别失败';
-        areaDom.innerText = '网络环境无法获取公网地址';
+        ipDom.innerText = 'IP 识别失败';
+        areaDom.innerText = '网络环境受限，无法获取公网地址';
         return;
       }
       ipDom.innerText = ip;
